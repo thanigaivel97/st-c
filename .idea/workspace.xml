@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="5653e9d0-bdf7-4134-8b32-87d72d0599e9" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.travis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.travis.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Builds/VisualStudio/stellar-core.vcxproj" beforeDir="false" afterPath="$PROJECT_DIR$/Builds/VisualStudio/stellar-core.vcxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Builds/VisualStudio/stellar-core.vcxproj.filters" beforeDir="false" afterPath="$PROJECT_DIR$/Builds/VisualStudio/stellar-core.vcxproj.filters" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/software/commands.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/software/commands.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/stellar-core.1.in" beforeDir="false" afterPath="$PROJECT_DIR$/docs/stellar-core.1.in" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/stellar-core_example.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/docs/stellar-core_example.cfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/sqlite/sqlite3.c" beforeDir="false" afterPath="$PROJECT_DIR$/lib/sqlite/sqlite3.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/sqlite/sqlite3.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/sqlite/sqlite3.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bucket/Bucket.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/bucket/Bucket.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bucket/Bucket.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/bucket/Bucket.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bucket/BucketApplicator.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/bucket/BucketApplicator.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bucket/BucketList.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/bucket/BucketList.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bucket/BucketManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/bucket/BucketManager.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bucket/BucketManagerImpl.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/bucket/BucketManagerImpl.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bucket/BucketManagerImpl.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/bucket/BucketManagerImpl.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bucket/BucketTests.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/bucket/BucketTests.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bucket/FutureBucket.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/bucket/FutureBucket.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bucket/LedgerCmp.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/bucket/LedgerCmp.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/catchup/ApplyBucketsWork.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/catchup/ApplyBucketsWork.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/herder/Herder.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/herder/Herder.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/herder/HerderImpl.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/herder/HerderImpl.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/herder/HerderImpl.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/herder/HerderImpl.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/herder/HerderPersistence.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/herder/HerderPersistence.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/herder/HerderPersistenceImpl.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/herder/HerderPersistenceImpl.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/herder/Upgrades.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/herder/Upgrades.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/herder/Upgrades.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/herder/Upgrades.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/history/HistoryTests.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/history/HistoryTests.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/invariant/BucketListIsConsistentWithDatabase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/invariant/BucketListIsConsistentWithDatabase.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/invariant/BucketListIsConsistentWithDatabaseTests.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/invariant/BucketListIsConsistentWithDatabaseTests.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/invariant/CacheIsConsistentWithDatabaseTests.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/invariant/CacheIsConsistentWithDatabaseTests.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ledger/LedgerHeaderFrame.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/ledger/LedgerHeaderFrame.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ledger/LedgerHeaderFrame.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/ledger/LedgerHeaderFrame.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ledger/LedgerManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/ledger/LedgerManager.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ledger/LedgerManagerImpl.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/ledger/LedgerManagerImpl.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ledger/LedgerManagerImpl.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/ledger/LedgerManagerImpl.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Application.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Application.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/ApplicationImpl.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ApplicationImpl.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/ApplicationImpl.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ApplicationImpl.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/CommandHandler.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/CommandHandler.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/CommandHandler.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/CommandHandler.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Config.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Config.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Config.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Config.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/ExternalQueue.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ExternalQueue.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/ExternalQueue.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ExternalQueue.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/overlay/FloodTests.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/overlay/FloodTests.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/overlay/Floodgate.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/overlay/Floodgate.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/overlay/OverlayManagerImpl.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/overlay/OverlayManagerImpl.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/overlay/Peer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/overlay/Peer.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/test.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/test.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/transactions/InflationOpFrame.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/transactions/InflationOpFrame.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/transactions/InflationTests.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/transactions/InflationTests.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/transactions/MergeTests.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/transactions/MergeTests.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/transactions/TransactionFrame.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/transactions/TransactionFrame.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/transactions/TransactionFrame.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/transactions/TransactionFrame.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xdr/Stellar-ledger.x" beforeDir="false" afterPath="$PROJECT_DIR$/src/xdr/Stellar-ledger.x" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xdr/Stellar-transaction.x" beforeDir="false" afterPath="$PROJECT_DIR$/src/xdr/Stellar-transaction.x" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travis-build.sh" beforeDir="false" afterPath="$PROJECT_DIR$/travis-build.sh" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Pull.Settings">
+    <option name="BRANCH" value="set-ki" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1jBo2EzXy5jQ8lZKsCWODoKcExx" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="F:/2020 desktop/leeway assignment/stellarcore/git/st-c" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5653e9d0-bdf7-4134-8b32-87d72d0599e9" name="Default Changelist" comment="" />
+      <created>1603286642201</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1603286642201</updated>
+      <workItem from="1603286642216" duration="635000" />
+      <workItem from="1603287324617" duration="4024000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="92" y="92" width="1182" height="544" key="DiffContextDialog" timestamp="1603291418383">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="92" y="92" width="1182" height="544" key="DiffContextDialog/0.0.1366.728@0.0.1366.728" timestamp="1603291418383" />
+    <state x="463" y="119" key="FileChooserDialogImpl" timestamp="1603288478429">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="463" y="119" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1603288478429" />
+    <state x="540" y="110" key="VcsDiffUtil.ChangesDialog" timestamp="1603291393824">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="540" y="110" key="VcsDiffUtil.ChangesDialog/0.0.1366.728@0.0.1366.728" timestamp="1603291393824" />
+    <state x="339" y="164" key="run.anything.popup" timestamp="1603290018041">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="339" y="164" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1603290018041" />
+  </component>
+</project>
