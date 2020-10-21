@@ -24,6 +24,7 @@ class CommandHandler
     Application& mApp;
     std::unique_ptr<http::server::server> mServer;
 
+    void addRoute(std::string const& name, HandlerRoute route);
     void safeRouter(HandlerRoute route, std::string const& params,
                     std::string& retStr);
 
@@ -50,6 +51,7 @@ class CommandHandler
     void peers(std::string const& params, std::string& retStr);
     void quorum(std::string const& params, std::string& retStr);
     void setcursor(std::string const& params, std::string& retStr);
+    void getcursor(std::string const& params, std::string& retStr);
     void scpInfo(std::string const& params, std::string& retStr);
     void tx(std::string const& params, std::string& retStr);
     void testAcc(std::string const& params, std::string& retStr);

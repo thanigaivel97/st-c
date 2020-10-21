@@ -44,6 +44,7 @@ class LedgerManager
     static const uint32_t GENESIS_LEDGER_BASE_FEE;
     static const uint32_t GENESIS_LEDGER_BASE_RESERVE;
     static const uint32_t GENESIS_LEDGER_MAX_TX_SIZE;
+    static const uint32_t GENESIS_LEDGER_PERCENTAGE_FEE;
     static const int64_t GENESIS_LEDGER_TOTAL_COINS;
 
     enum State
@@ -118,6 +119,7 @@ class LedgerManager
 
     // Return the fee required to apply a transaction to the current ledger.
     virtual uint32_t getTxFee() const = 0;
+    virtual uint32_t getTxPercentageFee() const = 0;
 
     // return the maximum size of a transaction set to apply to the current
     // ledger
@@ -179,7 +181,8 @@ class LedgerManager
     virtual void closeLedger(LedgerCloseData const& ledgerData) = 0;
 
     // deletes old entries stored in the database
-    virtual void deleteOldEntries(Database& db, uint32_t ledgerSeq) = 0;
+    virtual void deleteOldEntries(Database& db, uint32_t ledgerSeq,
+                                  uint32_t count) = 0;
 
     // checks the database for inconsistencies between objects
     virtual void checkDbState() = 0;

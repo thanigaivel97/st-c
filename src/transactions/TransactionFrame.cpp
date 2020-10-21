@@ -26,6 +26,7 @@
 #include "medida/metrics_registry.h"
 
 #include <algorithm>
+#include <math.h>
 #include <numeric>
 
 namespace stellar
@@ -104,13 +105,13 @@ TransactionFrame::getFeeRatio(LedgerManager const& lm) const
     return ((double)getFee() / (double)getMinFee(lm));
 }
 
-uint32_t
+uint64_t
 TransactionFrame::getFee() const
 {
     return mEnvelope.tx.fee;
 }
 
-int64_t
+uint64_t
 TransactionFrame::getMinFee(LedgerManager const& lm) const
 {
     size_t count = mOperations.size();
@@ -120,7 +121,44 @@ TransactionFrame::getMinFee(LedgerManager const& lm) const
         count = 1;
     }
 
-    return lm.getTxFee() * count;
+    auto baseFee = lm.getTxFee() * count;
+
+    int64_t accumulatedFeeFromPercentage = 0;
+    double percentageFeeAsDouble =
+        (double)lm.getTxPercentageFee() / (double)10000;
+
+    for (auto& op : mOperations)
+    {
+        auto operation = op->getOperation();
+
+        int fieldNumber = operation.body.type();
+
+        if (fieldNumber == 0)
+        {
+            auto percentFeeFloat =
+                operation.body.createAccountOp().startingBalance *
+                percentageFeeAsDouble;
+            int64_t roundedPercentFee = (int64_t)percentFeeFloat;
+            accumulatedFeeFromPercentage =
+                accumulatedFeeFromPercentage + roundedPercentFee;
+        }
+
+        if (fieldNumber == 1)
+        {
+            int8_t assetType =
+                operation.body.paymentOp().asset.type(); // 0 is native
+            if (assetType == 0)
+            {
+                auto percentFeeFloat =
+                    operation.body.paymentOp().amount * percentageFeeAsDouble;
+                int64_t roundedPercentFee = (int64_t)percentFeeFloat;
+                accumulatedFeeFromPercentage =
+                    accumulatedFeeFromPercentage + roundedPercentFee;
+            }
+        }
+    }
+
+    return baseFee + accumulatedFeeFromPercentage;
 }
 
 void
@@ -838,10 +876,14 @@ TransactionFrame::dropAll(Database& db)
 }
 
 void
-TransactionFrame::deleteOldEntries(Database& db, uint32_t ledgerSeq)
+TransactionFrame::deleteOldEntries(Database& db, uint32_t ledgerSeq,
+                                   uint32_t count)
 {
-    db.getSession() << "DELETE FROM txhistory WHERE ledgerseq <= " << ledgerSeq;
-    db.getSession() << "DELETE FROM txfeehistory WHERE ledgerseq <= "
-                    << ledgerSeq;
+    db.getSession() << "DELETE FROM txhistory WHERE ledgerseq IN (SELECT "
+                       "ledgerseq FROM txhistory WHERE ledgerseq <= "
+                    << ledgerSeq << " LIMIT " << count << ")";
+    db.getSession() << "DELETE FROM txfeehistory WHERE ledgerseq IN (SELECT "
+                       "ledgerseq FROM txfeehistory WHERE ledgerseq <= "
+                    << ledgerSeq << " LIMIT " << count << ")";
 }
 }

@@ -128,9 +128,9 @@ class TransactionFrame
         return mEnvelope.tx.sourceAccount;
     }
 
-    uint32_t getFee() const;
+    uint64_t getFee() const;
 
-    int64_t getMinFee(LedgerManager const& lm) const;
+    uint64_t getMinFee(LedgerManager const& lm) const;
 
     double getFeeRatio(LedgerManager const& lm) const;
 
@@ -185,6 +185,7 @@ class TransactionFrame
                                            XDROutputFileStream& txResultOut);
     static void dropAll(Database& db);
 
-    static void deleteOldEntries(Database& db, uint32_t ledgerSeq);
+    static void deleteOldEntries(Database& db, uint32_t ledgerSeq,
+                                 uint32_t count);
 };
 }

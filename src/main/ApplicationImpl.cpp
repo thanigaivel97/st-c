@@ -28,6 +28,7 @@
 #include "ledger/LedgerManager.h"
 #include "main/CommandHandler.h"
 #include "main/ExternalQueue.h"
+#include "main/Maintainer.h"
 #include "main/NtpSynchronizationChecker.h"
 #include "medida/counter.h"
 #include "medida/meter.h"
@@ -112,6 +113,7 @@ ApplicationImpl::initialize()
     mCatchupManager = CatchupManager::create(*this);
     mHistoryManager = HistoryManager::create(*this);
     mInvariantManager = createInvariantManager();
+    mMaintainer = make_unique<Maintainer>(*this);
     mProcessManager = ProcessManager::create(*this);
     mCommandHandler = make_unique<CommandHandler>(*this);
     mWorkManager = WorkManager::create(*this);
@@ -230,11 +232,12 @@ ApplicationImpl::getJsonInfo()
     info["ledger"]["closeTime"] = (Json::UInt64)lcl.header.scpValue.closeTime;
     info["ledger"]["version"] = lcl.header.ledgerVersion;
     info["ledger"]["baseFee"] = lcl.header.baseFee;
+    info["ledger"]["basePercentageFee"] = lcl.header.basePercentageFee;
     info["ledger"]["baseReserve"] = lcl.header.baseReserve;
     info["ledger"]["age"] = (int)lm.secondsSinceLastLedgerClose();
-    info["pending_peers_count"] =
+    info["peers"]["pending_count"] =
         (int)getOverlayManager().getPendingPeersCount();
-    info["authenticated_peers_count"] =
+    info["peers"]["authenticated_count"] =
         (int)getOverlayManager().getAuthenticatedPeersCount();
     info["network"] = getConfig().NETWORK_PASSPHRASE;
 
@@ -346,12 +349,7 @@ ApplicationImpl::start()
 
             // restores Herder's state before starting overlay
             mHerder->restoreState();
-            // perform maintenance tasks if configured to do so
-            // for now, we only perform it when CATCHUP_COMPLETE is not set
-            if (mConfig.MAINTENANCE_ON_STARTUP && !mConfig.CATCHUP_COMPLETE)
-            {
-                maintenance();
-            }
+            mMaintainer->start();
             mOverlayManager->start();
             auto npub = mHistoryManager->publishQueuedHistory();
             if (npub != 0)
@@ -499,14 +497,6 @@ ApplicationImpl::checkDB()
 }
 
 void
-ApplicationImpl::maintenance()
-{
-    LOG(INFO) << "Performing maintenance";
-    ExternalQueue ps(*this);
-    ps.process();
-}
-
-void
 ApplicationImpl::applyCfgCommands()
 {
     for (auto cmd : mConfig.COMMANDS)
@@ -644,6 +634,12 @@ HistoryManager&
 ApplicationImpl::getHistoryManager()
 {
     return *mHistoryManager;
+}
+
+Maintainer&
+ApplicationImpl::getMaintainer()
+{
+    return *mMaintainer;
 }
 
 ProcessManager&
