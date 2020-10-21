@@ -49,8 +49,6 @@ namespace stellar
 using namespace soci;
 using namespace std;
 
-using xdr::operator<;
-
 std::unique_ptr<OverlayManager>
 OverlayManager::create(Application& app)
 {

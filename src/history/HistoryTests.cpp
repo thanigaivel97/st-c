@@ -425,7 +425,7 @@ TEST_CASE("persist publish queue", "[history]")
 
         // Trim history after publishing.
         ExternalQueue ps(*app0);
-        ps.deleteOldEntries(50000);
+        ps.process();
     }
 
     cfg.MAX_CONCURRENT_SUBPROCESSES = 32;
@@ -444,7 +444,7 @@ TEST_CASE("persist publish queue", "[history]")
 
             // Trim history after publishing whenever possible.
             ExternalQueue ps(*app1);
-            ps.deleteOldEntries(50000);
+            ps.process();
         }
         // We should have either an empty publish queue or a
         // ledger sometime after the 5th checkpoint

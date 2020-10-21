@@ -4,7 +4,6 @@
 
 #include "invariant/BucketListIsConsistentWithDatabase.h"
 #include "bucket/Bucket.h"
-#include "bucket/BucketInputIterator.h"
 #include "crypto/Hex.h"
 #include "database/Database.h"
 #include "invariant/InvariantManager.h"
@@ -47,7 +46,7 @@ BucketListIsConsistentWithDatabase::checkOnBucketApply(
     uint64_t nAccounts = 0, nTrustLines = 0, nOffers = 0, nData = 0;
     bool hasPreviousEntry = false;
     BucketEntry previousEntry;
-    for (BucketInputIterator iter(bucket); iter; ++iter)
+    for (Bucket::InputIterator iter(bucket); iter; ++iter)
     {
         auto const& e = *iter;
         if (hasPreviousEntry && !BucketEntryIdCmp{}(previousEntry, e))

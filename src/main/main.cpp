@@ -20,7 +20,6 @@
 #include "lib/util/getopt.h"
 #include "main/Application.h"
 #include "main/Config.h"
-#include "main/Maintainer.h"
 #include "main/PersistentState.h"
 #include "main/dumpxdr.h"
 #include "main/fuzz.h"
@@ -263,9 +262,12 @@ checkInitialized(Application::pointer app)
 }
 
 static int
-catchup(Application::pointer app, uint32_t to, uint32_t count,
+catchup(Config const& cfg, uint32_t to, uint32_t count,
         Json::Value& catchupInfo)
 {
+    VirtualClock clock(VirtualClock::REAL_TIME);
+    Application::pointer app = Application::create(clock, cfg, false);
+
     if (!checkInitialized(app))
     {
         return 1;
@@ -282,7 +284,6 @@ catchup(Application::pointer app, uint32_t to, uint32_t count,
 
             done = true;
         });
-    auto& clock = app->getClock();
     while (!done && clock.crank(true))
         ;
 
@@ -333,33 +334,36 @@ catchup(Application::pointer app, uint32_t to, uint32_t count,
     }
 
     catchupInfo = app->getJsonInfo();
+    app->gracefulStop();
+    while (clock.crank(true))
+        ;
+
     return synced ? 0 : 3;
 }
 
 static int
-catchupAt(Application::pointer app, uint32_t at, Json::Value& catchupInfo)
+catchupAt(Config const& cfg, uint32_t at, Json::Value& catchupInfo)
 {
-    return catchup(app, at, 0, catchupInfo);
+    return catchup(cfg, at, 0, catchupInfo);
 }
 
 static int
-catchupComplete(Application::pointer app, Json::Value& catchupInfo)
+catchupComplete(Config const& cfg, Json::Value& catchupInfo)
 {
-    return catchup(app, CatchupConfiguration::CURRENT,
+    return catchup(cfg, CatchupConfiguration::CURRENT,
                    std::numeric_limits<uint32_t>::max(), catchupInfo);
 }
 
 static int
-catchupRecent(Application::pointer app, uint32_t count,
-              Json::Value& catchupInfo)
+catchupRecent(Config const& cfg, uint32_t count, Json::Value& catchupInfo)
 {
-    return catchup(app, CatchupConfiguration::CURRENT, count, catchupInfo);
+    return catchup(cfg, CatchupConfiguration::CURRENT, count, catchupInfo);
 }
 
 static int
-catchupTo(Application::pointer app, uint32_t to, Json::Value& catchupInfo)
+catchupTo(Config const& cfg, uint32_t to, Json::Value& catchupInfo)
 {
-    return catchup(app, to, std::numeric_limits<uint32_t>::max(), catchupInfo);
+    return catchup(cfg, to, std::numeric_limits<uint32_t>::max(), catchupInfo);
 }
 
 static void
@@ -527,6 +531,7 @@ loadXdr(Config const& cfg, std::string const& bucketFile)
     {
         uint256 zero;
         Bucket bucket(bucketFile, zero);
+        bucket.setRetain(true);
         bucket.apply(app->getDatabase());
     }
     else
@@ -541,7 +546,7 @@ inferQuorumAndWrite(Config const& cfg)
     InferredQuorum iq;
     {
         VirtualClock clock;
-        Application::pointer app = Application::create(clock, cfg, false);
+        Application::pointer app = Application::create(clock, cfg);
         iq = app->getHistoryManager().inferQuorum();
     }
     LOG(INFO) << "Inferred quorum";
@@ -552,7 +557,7 @@ static void
 checkQuorumIntersection(Config const& cfg)
 {
     VirtualClock clock;
-    Application::pointer app = Application::create(clock, cfg, false);
+    Application::pointer app = Application::create(clock, cfg);
     InferredQuorum iq = app->getHistoryManager().inferQuorum();
     iq.checkQuorumIntersection(cfg);
 }
@@ -563,7 +568,7 @@ writeQuorumGraph(Config const& cfg, std::string const& outputFile)
     InferredQuorum iq;
     {
         VirtualClock clock;
-        Application::pointer app = Application::create(clock, cfg, false);
+        Application::pointer app = Application::create(clock, cfg);
         iq = app->getHistoryManager().inferQuorum();
     }
     std::string filename = outputFile.empty() ? "-" : outputFile;
@@ -851,32 +856,22 @@ main(int argc, char* const* argv)
             doCatchupComplete || doCatchupRecent || doCatchupTo ||
             doReportLastHistoryCheckpoint)
         {
+            Json::Value catchupInfo;
+
             auto result = 0;
             setNoListen(cfg);
-            if (newDB)
+            if ((result == 0) && newDB)
                 initializeDatabase(cfg);
-            if ((result == 0) && (doCatchupAt || doCatchupComplete ||
-                                  doCatchupRecent || doCatchupTo))
-            {
-                Json::Value catchupInfo;
-                VirtualClock clock(VirtualClock::REAL_TIME);
-                auto app = Application::create(clock, cfg, false);
-                app->getMaintainer().start();
-                if (doCatchupAt)
-                    result = catchupAt(app, catchupAtTarget, catchupInfo);
-                if ((result == 0) && doCatchupComplete)
-                    result = catchupComplete(app, catchupInfo);
-                if ((result == 0) && doCatchupRecent)
-                    result =
-                        catchupRecent(app, catchupRecentCount, catchupInfo);
-                if ((result == 0) && doCatchupTo)
-                    result = catchupTo(app, catchupToTarget, catchupInfo);
-                app->gracefulStop();
-                while (app->getClock().crank(true))
-                    ;
-                if (!catchupInfo.isNull())
-                    writeCatchupInfo(catchupInfo, outputFile);
-            }
+            if ((result == 0) && doCatchupAt)
+                result = catchupAt(cfg, catchupAtTarget, catchupInfo);
+            if ((result == 0) && doCatchupComplete)
+                result = catchupComplete(cfg, catchupInfo);
+            if ((result == 0) && doCatchupRecent)
+                result = catchupRecent(cfg, catchupRecentCount, catchupInfo);
+            if ((result == 0) && doCatchupTo)
+                result = catchupTo(cfg, catchupToTarget, catchupInfo);
+            if (!catchupInfo.isNull())
+                writeCatchupInfo(catchupInfo, outputFile);
             if ((result == 0) && forceSCP)
                 setForceSCPFlag(cfg, *forceSCP);
             if ((result == 0) && getOfflineInfo)

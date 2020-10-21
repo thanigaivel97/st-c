@@ -38,8 +38,6 @@ namespace stellar
 using namespace std;
 using namespace soci;
 
-using xdr::operator<;
-
 medida::Meter&
 Peer::getByteReadMeter(Application& app)
 {

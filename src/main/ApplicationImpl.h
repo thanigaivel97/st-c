@@ -55,7 +55,6 @@ class ApplicationImpl : public Application
     virtual BucketManager& getBucketManager() override;
     virtual CatchupManager& getCatchupManager() override;
     virtual HistoryManager& getHistoryManager() override;
-    virtual Maintainer& getMaintainer() override;
     virtual ProcessManager& getProcessManager() override;
     virtual Herder& getHerder() override;
     virtual HerderPersistence& getHerderPersistence() override;
@@ -92,6 +91,8 @@ class ApplicationImpl : public Application
     virtual LoadGenerator& getLoadGenerator() override;
 
     virtual void checkDB() override;
+
+    virtual void maintenance() override;
 
     virtual void applyCfgCommands() override;
 
@@ -134,7 +135,6 @@ class ApplicationImpl : public Application
     std::unique_ptr<HerderPersistence> mHerderPersistence;
     std::unique_ptr<HistoryManager> mHistoryManager;
     std::unique_ptr<InvariantManager> mInvariantManager;
-    std::unique_ptr<Maintainer> mMaintainer;
     std::shared_ptr<ProcessManager> mProcessManager;
     std::unique_ptr<CommandHandler> mCommandHandler;
     std::shared_ptr<WorkManager> mWorkManager;

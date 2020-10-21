@@ -32,8 +32,6 @@ class Upgrades
             mProtocolVersion =
                 make_optional<uint32>(cfg.LEDGER_PROTOCOL_VERSION);
             mBaseFee = make_optional<uint32>(cfg.TESTING_UPGRADE_DESIRED_FEE);
-            mBasePercentageFee = make_optional<uint32>(
-                cfg.TESTING_UPGRADE_DESIRED_PERCENTAGE_FEE);
             mMaxTxSize =
                 make_optional<uint32>(cfg.TESTING_UPGRADE_MAX_TX_PER_LEDGER);
             mBaseReserve = make_optional<uint32>(cfg.TESTING_UPGRADE_RESERVE);
@@ -41,7 +39,6 @@ class Upgrades
         VirtualClock::time_point mUpgradeTime;
         optional<uint32> mProtocolVersion;
         optional<uint32> mBaseFee;
-        optional<uint32> mBasePercentageFee;
         optional<uint32> mMaxTxSize;
         optional<uint32> mBaseReserve;
 

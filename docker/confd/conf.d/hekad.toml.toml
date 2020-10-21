@@ -1,4 +1,0 @@
-[template]
-src = "hekad.toml.tmpl"
-dest = "/heka/hekad.toml"
-mode = "0644"

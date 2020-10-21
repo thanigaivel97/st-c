@@ -5,10 +5,8 @@
 #include "util/asio.h"
 
 #include "bucket/Bucket.h"
-#include "bucket/BucketInputIterator.h"
 #include "bucket/BucketList.h"
 #include "bucket/BucketManager.h"
-#include "bucket/BucketOutputIterator.h"
 #include "catchup/ApplyBucketsWork.h"
 #include "database/Database.h"
 #include "invariant/Invariant.h"
@@ -31,11 +29,6 @@
 
 using namespace stellar;
 using namespace std::placeholders;
-
-namespace stellar
-{
-using xdr::operator<;
-}
 
 namespace BucketListIsConsistentWithDatabaseTests
 {
@@ -143,16 +136,16 @@ getHistoryArchiveState(Application::pointer appGenerate,
     {
         auto& level = blGenerate.getLevel(i);
         {
-            BucketOutputIterator out(bmApply.getTmpDir(), true);
-            for (BucketInputIterator in (level.getCurr()); in; ++in)
+            Bucket::OutputIterator out(bmApply.getTmpDir(), true);
+            for (Bucket::InputIterator in (level.getCurr()); in; ++in)
             {
                 out.put(*in);
             }
             out.getBucket(bmApply);
         }
         {
-            BucketOutputIterator out(bmApply.getTmpDir(), true);
-            for (BucketInputIterator in (level.getSnap()); in; ++in)
+            Bucket::OutputIterator out(bmApply.getTmpDir(), true);
+            for (Bucket::InputIterator in (level.getSnap()); in; ++in)
             {
                 out.put(*in);
             }
@@ -502,7 +495,7 @@ class ApplyBucketsWorkModifyEntry : public ApplyBucketsWork
 bool
 doesBucketContain(std::shared_ptr<Bucket const> bucket, const BucketEntry& be)
 {
-    for (BucketInputIterator iter(bucket); iter; ++iter)
+    for (Bucket::InputIterator iter(bucket); iter; ++iter)
     {
         if (*iter == be)
         {

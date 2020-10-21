@@ -12,7 +12,6 @@
 #include "lib/util/format.h"
 #include "main/Application.h"
 #include "main/Config.h"
-#include "main/Maintainer.h"
 #include "overlay/BanManager.h"
 #include "overlay/OverlayManager.h"
 #include "util/Logging.h"
@@ -37,8 +36,6 @@ using std::placeholders::_2;
 
 namespace stellar
 {
-using xdr::operator<;
-
 CommandHandler::CommandHandler(Application& app) : mApp(app)
 {
     if (mApp.getConfig().HTTP_PORT)
@@ -69,36 +66,56 @@ CommandHandler::CommandHandler(Application& app) : mApp(app)
 
     mServer->add404(std::bind(&CommandHandler::fileNotFound, this, _1, _2));
 
-    addRoute("bans", &CommandHandler::bans);
-    addRoute("catchup", &CommandHandler::catchup);
-    addRoute("checkdb", &CommandHandler::checkdb);
-    addRoute("connect", &CommandHandler::connect);
-    addRoute("dropcursor", &CommandHandler::dropcursor);
-    addRoute("droppeer", &CommandHandler::dropPeer);
-    addRoute("generateload", &CommandHandler::generateLoad);
-    addRoute("getcursor", &CommandHandler::getcursor);
-    addRoute("info", &CommandHandler::info);
-    addRoute("ll", &CommandHandler::ll);
-    addRoute("logrotate", &CommandHandler::logRotate);
-    addRoute("maintenance", &CommandHandler::maintenance);
-    addRoute("manualclose", &CommandHandler::manualClose);
-    addRoute("metrics", &CommandHandler::metrics);
-    addRoute("peers", &CommandHandler::peers);
-    addRoute("quorum", &CommandHandler::quorum);
-    addRoute("setcursor", &CommandHandler::setcursor);
-    addRoute("scp", &CommandHandler::scpInfo);
-    addRoute("testacc", &CommandHandler::testAcc);
-    addRoute("testtx", &CommandHandler::testTx);
-    addRoute("tx", &CommandHandler::tx);
-    addRoute("upgrades", &CommandHandler::upgrades);
-    addRoute("unban", &CommandHandler::unban);
-}
-
-void
-CommandHandler::addRoute(std::string const& name, HandlerRoute route)
-{
-    mServer->addRoute(
-        name, std::bind(&CommandHandler::safeRouter, this, route, _1, _2));
+    mServer->addRoute("bans", std::bind(&CommandHandler::safeRouter, this,
+                                        &CommandHandler::bans, _1, _2));
+    mServer->addRoute("catchup", std::bind(&CommandHandler::safeRouter, this,
+                                           &CommandHandler::catchup, _1, _2));
+    mServer->addRoute("checkdb", std::bind(&CommandHandler::safeRouter, this,
+                                           &CommandHandler::checkdb, _1, _2));
+    mServer->addRoute("connect", std::bind(&CommandHandler::safeRouter, this,
+                                           &CommandHandler::connect, _1, _2));
+    mServer->addRoute("dropcursor",
+                      std::bind(&CommandHandler::safeRouter, this,
+                                &CommandHandler::dropcursor, _1, _2));
+    mServer->addRoute("droppeer", std::bind(&CommandHandler::safeRouter, this,
+                                            &CommandHandler::dropPeer, _1, _2));
+    mServer->addRoute("generateload",
+                      std::bind(&CommandHandler::safeRouter, this,
+                                &CommandHandler::generateLoad, _1, _2));
+    mServer->addRoute("info", std::bind(&CommandHandler::safeRouter, this,
+                                        &CommandHandler::info, _1, _2));
+    mServer->addRoute("ll", std::bind(&CommandHandler::safeRouter, this,
+                                      &CommandHandler::ll, _1, _2));
+    mServer->addRoute("logrotate",
+                      std::bind(&CommandHandler::safeRouter, this,
+                                &CommandHandler::logRotate, _1, _2));
+    mServer->addRoute("maintenance",
+                      std::bind(&CommandHandler::safeRouter, this,
+                                &CommandHandler::maintenance, _1, _2));
+    mServer->addRoute("manualclose",
+                      std::bind(&CommandHandler::safeRouter, this,
+                                &CommandHandler::manualClose, _1, _2));
+    mServer->addRoute("metrics", std::bind(&CommandHandler::safeRouter, this,
+                                           &CommandHandler::metrics, _1, _2));
+    mServer->addRoute("peers", std::bind(&CommandHandler::safeRouter, this,
+                                         &CommandHandler::peers, _1, _2));
+    mServer->addRoute("quorum", std::bind(&CommandHandler::safeRouter, this,
+                                          &CommandHandler::quorum, _1, _2));
+    mServer->addRoute("setcursor",
+                      std::bind(&CommandHandler::safeRouter, this,
+                                &CommandHandler::setcursor, _1, _2));
+    mServer->addRoute("scp", std::bind(&CommandHandler::safeRouter, this,
+                                       &CommandHandler::scpInfo, _1, _2));
+    mServer->addRoute("testacc", std::bind(&CommandHandler::safeRouter, this,
+                                           &CommandHandler::testAcc, _1, _2));
+    mServer->addRoute("testtx", std::bind(&CommandHandler::safeRouter, this,
+                                          &CommandHandler::testTx, _1, _2));
+    mServer->addRoute("tx", std::bind(&CommandHandler::safeRouter, this,
+                                      &CommandHandler::tx, _1, _2));
+    mServer->addRoute("upgrades", std::bind(&CommandHandler::safeRouter, this,
+                                            &CommandHandler::upgrades, _1, _2));
+    mServer->addRoute("unban", std::bind(&CommandHandler::safeRouter, this,
+                                         &CommandHandler::unban, _1, _2));
 }
 
 void
@@ -325,13 +342,10 @@ CommandHandler::fileNotFound(std::string const& params, std::string& retStr)
         "ledger sequence N the data can be safely removed by the instance."
         "The actual deletion is performed by invoking the `maintenance` "
         "endpoint."
-        "</p><p><h1> /getcursor?[id=ID]</h1> gets the cursor identified by "
-        "'ID'.  If ID is not defined then all cursors will be returned."
-        "</p><p><h1> /maintenance[?queue=true[&count=N]]</h1> Performs "
-        "maintenance tasks on the instance."
-        "<ul><li><i>queue</i> performs deletion of queue data. Deletes at most "
-        "count entries from each table (defaults to 50000). See setcursor for "
-        "more information</li></ul>"
+        "</p><p><h1> /maintenance[?queue=true]</h1> Performs maintenance tasks "
+        "on the instance."
+        "<ul><li><i>queue</i> performs deletion of queue data.See setcursor "
+        "for more information</li></ul>"
         "</p><p><h1> "
         "/unban?node=NODE_ID</h1>"
         "remove ban for PEER_ID"
@@ -746,7 +760,6 @@ CommandHandler::upgrades(std::string const& params, std::string& retStr)
         };
         addParam("basefee", p.mBaseFee);
         addParam("basereserve", p.mBaseReserve);
-        addParam("basepercentagefee", p.mBasePercentageFee);
         addParam("maxtxsize", p.mMaxTxSize);
         addParam("protocolversion", p.mProtocolVersion);
 
@@ -971,46 +984,13 @@ CommandHandler::setcursor(std::string const& params, std::string& retStr)
 }
 
 void
-CommandHandler::getcursor(std::string const& params, std::string& retStr)
-{
-    Json::Value root;
-    std::map<std::string, std::string> map;
-    http::server::server::parseParams(params, map);
-    std::string const& id = map["id"];
-
-    // the decision was made not to check validity here
-    // because there are subsequent checks for that in
-    // ExternalQueue and if an exception is thrown for
-    // validity there, the ret format is technically more
-    // correct for the mime type
-    ExternalQueue ps(mApp);
-    std::map<std::string, uint32> curMap;
-    int counter = 0;
-    ps.getCursorForResource(id, curMap);
-    root["cursors"][0];
-    for (auto cursor : curMap)
-    {
-        root["cursors"][counter]["id"] = cursor.first;
-        root["cursors"][counter]["cursor"] = cursor.second;
-        counter++;
-    }
-
-    retStr = root.toStyledString();
-}
-
-void
 CommandHandler::maintenance(std::string const& params, std::string& retStr)
 {
     std::map<std::string, std::string> map;
     http::server::server::parseParams(params, map);
     if (map["queue"] == "true")
     {
-        uint32_t count = 50000;
-        if (!parseNumParam(map, "count", count, retStr,
-                           Requirement::OPTIONAL_REQ))
-            return;
-
-        mApp.getMaintainer().performMaintenance(count);
+        mApp.maintenance();
         retStr = "Done";
     }
     else

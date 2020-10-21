@@ -28,7 +28,6 @@ class LedgerManager;
 class BucketManager;
 class CatchupManager;
 class HistoryManager;
-class Maintainer;
 class ProcessManager;
 class Herder;
 class HerderPersistence;
@@ -191,7 +190,6 @@ class Application
     virtual BucketManager& getBucketManager() = 0;
     virtual CatchupManager& getCatchupManager() = 0;
     virtual HistoryManager& getHistoryManager() = 0;
-    virtual Maintainer& getMaintainer() = 0;
     virtual ProcessManager& getProcessManager() = 0;
     virtual Herder& getHerder() = 0;
     virtual HerderPersistence& getHerderPersistence() = 0;
@@ -239,6 +237,9 @@ class Application
 
     // Run a consistency check between the database and the bucketlist.
     virtual void checkDB() = 0;
+
+    // perform maintenance tasks
+    virtual void maintenance() = 0;
 
     // Execute any administrative commands written in the Config.COMMANDS
     // variable of the config file. This permits scripting certain actions to

@@ -9,6 +9,8 @@
 
 namespace stellar
 {
+using xdr::operator<;
+
 /**
  * Compare two LedgerEntries or LedgerKeys for 'identity', not content.
  *
@@ -31,8 +33,6 @@ struct LedgerEntryIdCmp
     operator()(T const& a, U const& b) const
         -> decltype(a.type(), b.type(), bool())
     {
-        using xdr::operator<;
-
         LedgerEntryType aty = a.type();
         LedgerEntryType bty = b.type();
 
